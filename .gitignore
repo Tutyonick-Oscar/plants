@@ -1,0 +1,9 @@
+./offer_env
+./vscode
+plants/settings/local_settings.py
+apps/**/__pycache__/
+plants/__pycache__/
+/apps/**/**/__pycache__/
+apps/**/**/**/__pycache__/
+apps/**/test.py
+plants/**/__pycache__/
