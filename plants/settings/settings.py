@@ -33,7 +33,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    f'{app_path('core')}.middlewares.PlantsMiddleware'
+    f"{app_path('core')}.middlewares.PlantsMiddleware"
 ]
 
 ROOT_URLCONF = 'plants.urls'
