@@ -1,3 +1,4 @@
+import dj_database_url
 from pathlib import Path
 from plants.usable import app_path
 
