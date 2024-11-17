@@ -105,9 +105,9 @@ REST_FRAMEWORK = {
 }
 try :
     from .local_settings import *
-    
+
 except Exception as e :
 
-    from  .etc.secrets.local_settings.py import *
+    from  plants.etc.secrets.local_settings.py import *
 
     print('error accured in the file', e.__dir__)
