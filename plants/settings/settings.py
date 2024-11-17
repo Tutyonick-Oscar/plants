@@ -108,6 +108,6 @@ try :
 
 except Exception as e :
 
-    from local_env_settings import *
+    from local_env_settings.local_settings import *
 
     print('error accured in the file', e.__dir__)
