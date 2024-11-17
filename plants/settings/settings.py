@@ -108,6 +108,6 @@ try :
 
 except Exception as e :
 
-    from  plants.etc.secrets.local_settings.py import *
+    from  etc.secrets.local_settings.py import *
 
     print('error accured in the file', e.__dir__)
