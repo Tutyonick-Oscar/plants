@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     app_path('field'),
     "rest_framework",
     "rest_framework.authtoken",
+    app_path('task'),
 ]
 
 MIDDLEWARE = [

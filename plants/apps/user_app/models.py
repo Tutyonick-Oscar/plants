@@ -49,4 +49,18 @@ class CustomUser(BaseModel, AbstractBaseUser, PermissionsMixin):
     class Meta:
         base_manager_name = "objects"
         default_manager_name = "objects"
+        constraints = [
+            models.UniqueConstraint(
+                fields=['email'],
+                condition=models.Q(deleted_at=None),
+                name='unique_undeleted_user'
+            )
+        ]
+        indexes = [
+            models.Index(
+                fields=('deleted_at',),
+                name='indexing_undeleted_users',
+                condition=models.Q(deleted_at=None)
+            )
+        ]
 

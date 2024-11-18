@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from .models import Field
+from .serializers import FieldSerializer
+from rest_framework.generics import CreateAPIView
 
-# Create your views here.
+class CreateField(CreateAPIView):
+    serializer_class = FieldSerializer
+    queryset = Field.objects.all()
