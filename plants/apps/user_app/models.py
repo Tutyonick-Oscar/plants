@@ -3,7 +3,8 @@ from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
-
+from django.core.validators import MaxLengthValidator,MinLengthValidator
+from plants.apps.core.validators import str_checker,special_characters_check
 from plants.apps.core.models import BaseModel, CustomBaseManager
 
 
@@ -26,8 +27,12 @@ class CustomUserManager(BaseUserManager, CustomBaseManager):
 
 class CustomUser(BaseModel, AbstractBaseUser, PermissionsMixin):
     created_by = None
-    username = models.CharField(max_length=50)
+    username = models.CharField(max_length=50, validators=[str_checker])
     email = models.EmailField(unique=True, max_length=200, blank=False)
+    password = models.CharField(
+        ("password"), max_length=128,
+        validators=[MaxLengthValidator(8),MinLengthValidator(6),special_characters_check]
+    )
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = None
