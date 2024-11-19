@@ -8,7 +8,7 @@ def str_checker(value):
 
     for letter in name_list:
         if letter in numbers:
-            raise ValidationError("name must contain only charecters")
+            raise ValidationError("name must contain only characters")
 
 
 def special_characters_check(value):

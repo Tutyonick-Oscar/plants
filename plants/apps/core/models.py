@@ -28,7 +28,7 @@ class BaseModel(models.Model):
     created_by = models.ForeignKey(
         AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True
     )
-    deleted_at = models.DateTimeField(default=None, null=True)
+    deleted_at = models.DateTimeField(blank=True,default=None, null=True)
 
     objects = CustomBaseManager()
 
