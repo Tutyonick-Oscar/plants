@@ -1,5 +1,5 @@
 from plants.apps.task.serializers import TaskSerialzer,Task
-from rest_framework.generics import CreateAPIView,GenericAPIView
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
 class CreateTask(GenericAPIView):
@@ -18,4 +18,7 @@ class CreateTask(GenericAPIView):
         serializer = TaskSerialzer(task,context={"request": request})
 
         return Response(serializer.data)
+
+class TaskNotification():
+    pass
     

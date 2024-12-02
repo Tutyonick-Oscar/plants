@@ -52,3 +52,7 @@ class BaseModel(models.Model):
         self.created_by = getattr(local, "CURRENT_USER")
         super().save(*args, **kwargs)
         return self
+
+class RequestOffset(BaseModel):
+    created_by = None
+    offset = models.IntegerField(default=0)

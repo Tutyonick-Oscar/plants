@@ -33,6 +33,7 @@ def special_characters_check(value):
         ".",
         "|",
         "~",
+        '_',
     ]
     point = 0
     for element in value:

@@ -1,10 +1,13 @@
-from django.urls import path
-from ..views import CreateUser,UserDetails
+from django.urls import path,include
+from ..views import UsersViewSet
+from rest_framework import routers
 from rest_framework.authtoken import views
 
+app_name = "user_app"
+router = routers.DefaultRouter()
+router.register(r'accounts',UsersViewSet,basename='users')
 
 urlpatterns =[
-    path('create/',CreateUser.as_view(),name="create-user"),
+    path('',include(router.urls)),
     path('login/',views.obtain_auth_token,name='api-login'),
-    path('<int:pk>/details/',UserDetails.as_view(),name='user-details')
 ]

@@ -7,7 +7,6 @@ from rest_framework.authtoken.models import Token
 
 local = threading.local()
 
-
 def get_user(request):
 
     header_token = request.META.get("HTTP_AUTHORIZATION", None)

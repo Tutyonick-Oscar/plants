@@ -1,6 +1,11 @@
-from django.urls import path
-from ..views import CreateField
+from django.urls import path,include
+from ..views import FieldViewSet
+from rest_framework import routers
 
-urlpatterns =[
-    path("create/",CreateField.as_view(),name='create-field-api')
+app_name = 'field'
+router = routers.DefaultRouter()
+router.register(r'fields',FieldViewSet,basename='fields')
+
+urlpatterns=[
+    path("",include(router.urls)),
 ]
