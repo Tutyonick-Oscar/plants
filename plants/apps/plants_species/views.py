@@ -44,7 +44,7 @@ class PlantsSpecies(GenericAPIView):
             off =  RequestOffset.objects.first()
             off.offset=request_offset+1
             off.save() 
-
+        print(request.content_type)
         return Response(response.json())
     
 class PlantsDetails(PlantsSpecies):

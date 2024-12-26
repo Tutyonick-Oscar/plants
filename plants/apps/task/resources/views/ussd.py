@@ -7,9 +7,7 @@ class GenerateUserIdent(APIView):
     
     def post(self,request):
         
-        content_type = request.META.get('CONTENT_TYPE','')
-        
-        if 'application/x-www-form-urlencoded' in content_type:
+        if request.content_type == 'application/x-www-form-urlencoded':
             
             session_id = request.values.get("sessionId", None)
             service_code = request.values.get("serviceCode", None)
