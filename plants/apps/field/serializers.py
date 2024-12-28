@@ -6,5 +6,8 @@ class FieldSerializer(DynamicFieldsModelSerializer):
     created_by = CustomUserSerializer(read_only = True)
     class Meta:
         model = Field
-        fields = ['id','plant_specie','region','start_on','mesure','accuracy','created_by']
+        fields = [
+            'id','plant_specie','region','start_on','prod_quantity_estimated',
+            'measure','period','project_description','grow_speed','created_by'
+        ]
 

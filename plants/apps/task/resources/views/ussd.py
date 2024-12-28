@@ -1,6 +1,4 @@
-from plants.apps.user_app.models import CustomUser
 from rest_framework.views import APIView
-from django.http  import HttpResponse
 from rest_framework.response import Response
 from plants.apps.core.renderers import PlainTextRenderer
 
@@ -23,6 +21,3 @@ class GenerateUserIdent(APIView):
             
         else:
             return Response({'message' : 'wrong data format'})
-    # user = CustomUser.objects.get(username = name)
-    # user_ident = '000'+str(user.pk)
-    # return HttpResponse(user_ident)
