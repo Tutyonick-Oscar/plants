@@ -33,6 +33,11 @@ class Field(BaseModel):
         choices=GrowSpeedChoices.choices,
         default=GrowSpeedChoices.NORMAL
     )
+    ground_ph = models.IntegerField(null=True,blank=True)
+    organic_materials = models.IntegerField(null=True,blank=True)
+    long = models.DecimalField(decimal_places=10, max_digits=20)
+    lat = models.DecimalField(decimal_places=10, max_digits=20)
+    equipements = models.JSONField()
     agroflex_advices = models.TextField(blank=True,null=True)
     
     objects = FieldManager()
