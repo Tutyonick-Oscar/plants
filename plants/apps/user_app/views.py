@@ -16,7 +16,7 @@ class UsersViewSet(ModelViewSet):
         try:
             user.full_clean()
         except ValidationError as e:
-            return Response(e.error_dict)
+            return Response(e.error_dict,status=400)
 
         user.set_password(request.data["password"])
         user.save()

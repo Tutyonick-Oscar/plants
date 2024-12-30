@@ -20,7 +20,7 @@ class PlantsSpecies(GenericAPIView):
 
         query_params = ''
 
-        #api key index must be equal to offset int stored into db
+        #db offest must be equal to list keys in PERENUAL_API_KEYS
         try:
             complet_url = self.base_url+self.end_url+f"?key={PERENUAL_API_KEYS[request_offset]}"
         except IndexError:
@@ -40,13 +40,17 @@ class PlantsSpecies(GenericAPIView):
         response = requests.get(complet_url,self.headers)
 
         #handling retelimit of api  access
-        if int(response.headers['X-RateLimit-Remaining']) == 1:
-            off =  RequestOffset.objects.first()
-            off.offset=request_offset+1
-            off.save() 
-            
-        data = response.json().get('data')
-        return Response({'data': data})
+
+        if response.headers.get('X-RateLimit-Remaining') is not None :
+            if int(response.headers['X-RateLimit-Remaining']) == 1:
+                off =  RequestOffset.objects.first()
+                off.offset=request_offset+1
+                off.save() 
+                
+        if response.json().get('X-RateLimit-Remaining') is not None:
+            return Response({'message' : 'limit offset'})
+        
+        return Response(response.json())
     
 class PlantsDetails(PlantsSpecies):
 
