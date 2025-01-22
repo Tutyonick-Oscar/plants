@@ -11,6 +11,38 @@ class ProductViewSet(ModelViewSet):
     
     serializer_class = ProductSerializer
     queryset = Product.objects.select_related('created_by','product_field').filter(product_on_sale=True)
+    
+    def create(self, request, *args, **kwargs):
+        #return super().create(request, *args, **kwargs)
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        cost = product_access_unit_cost(
+            serializer.validated_data.get('product_measurement_unit'),
+            serializer.validated_data.get('product_quantity')
+        )
+    
+        user = self.request.user     
+        if user.user_access_unit<cost:
+            print('operation imposible')
+            return Response(
+                {
+                    'success':False,
+                    'respose_code' : 403,
+                    'respose_data' : None,
+                    'response_message' : 'insufficient AU, please charge your account'
+                },status=403
+            )
+        user.user_access_unit-=cost
+        user.save()
+        serializer.save()
+        return Response({
+            'success' : True,
+            'response_code' : status.HTTP_201_CREATED,
+            'response_data' : serializer.data,
+            'response_messsage' : 'product created successfuly'
+        })
+            
 
 class FieldProductView(GenericAPIView):
     serializer_class = ProductSerializer
