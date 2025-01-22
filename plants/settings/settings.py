@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     app_path('task'),
+    app_path('market'),
     "django_extensions",
 ]
 

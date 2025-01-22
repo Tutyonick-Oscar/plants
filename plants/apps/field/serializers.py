@@ -7,7 +7,15 @@ class FieldSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = Field
         fields = [
-            'id','plant_specie','region','start_on','prod_quantity_estimated',
-            'measure','period','project_description','grow_speed','created_by'
+            'id','plant_specie','region','country',
+            'start_on','prod_quantity_estimated',
+            'measure','period','project_description','grow_speed','created_by',
+            'ground_ph',
+            'ground_type',
+            'organic_materials',
+            'long',
+            'lat',
+            'equipements',
+            'agroflex_advices',
         ]
 

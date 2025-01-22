@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
@@ -26,6 +26,12 @@ class CustomUserManager(BaseUserManager, CustomBaseManager):
 
 
 class CustomUser(BaseModel, AbstractBaseUser, PermissionsMixin):
+    
+    class UserRolesChoices(models.TextChoices):
+        MARCHANT = 'M',_('Marchant')
+        FARMER = 'F',_('Farmer')
+        SIMPLE_USER = 'S',_('Simple_user')
+        
     created_by = None
     username = models.CharField(max_length=50, validators=[str_checker])
     email = models.EmailField(unique=True, max_length=200, blank=False)
@@ -33,6 +39,13 @@ class CustomUser(BaseModel, AbstractBaseUser, PermissionsMixin):
         ("password"), max_length=128,
         validators=[MaxLengthValidator(8),MinLengthValidator(6),special_characters_check]
     )
+    role = models.CharField(
+        max_length=1,
+        choices=UserRolesChoices.choices,
+        default=UserRolesChoices.SIMPLE_USER
+    )
+    user_access_unit = models.DecimalField(max_digits=16,decimal_places=4,default=0.00)
+    
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = None

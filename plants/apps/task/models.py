@@ -22,8 +22,8 @@ class Task (BaseModel):
     descriptions = models.TextField(blank=True,null=True)
     field = models.ForeignKey('field.Field',on_delete=models.CASCADE,related_name='planed_tasks')
     status = models.CharField(max_length=1,default='P',choices=TaskStatusChoices.choices)
-    required_equipements = models.JSONField()
-    #depend_on = models.
+    required_equipements = models.JSONField(default=None, null=True,blank=True)
+    #depend_on = models.ForeignKey(Task,default=None)
     generated = models.BooleanField(default=False)
     aprouved = models.BooleanField(default=False)
 

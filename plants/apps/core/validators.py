@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 
 def str_checker(value):
@@ -8,7 +9,7 @@ def str_checker(value):
 
     for letter in name_list:
         if letter in numbers:
-            raise ValidationError("name must contain only characters")
+            raise ValidationError(_("name must contain only characters"))
 
 
 def special_characters_check(value):
@@ -40,4 +41,4 @@ def special_characters_check(value):
         if element in sp_char:
             point += 1
     if point == 0:
-        raise ValidationError("password must contain at least one special character !")
+        raise ValidationError(_("password must contain at least one special character !"))
