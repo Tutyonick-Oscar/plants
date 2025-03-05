@@ -94,6 +94,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticsfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -111,4 +112,4 @@ try :
 
 except Exception as e :
 
-    print('error accured in the file', e.__dir__)
+    print('error accured in the file', str(e))
