@@ -34,11 +34,13 @@ def special_characters_check(value):
         ".",
         "|",
         "~",
-        '_',
+        "_",
     ]
     point = 0
     for element in value:
         if element in sp_char:
             point += 1
     if point == 0:
-        raise ValidationError(_("password must contain at least one special character !"))
+        raise ValidationError(
+            _("password must contain at least one special character !")
+        )

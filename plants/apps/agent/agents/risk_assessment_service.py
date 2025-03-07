@@ -1,31 +1,43 @@
-from typing import Dict, Any, Optional, List
-from datetime import datetime
 import json
 import re
-from plants.apps.agent.agents.base_agent import BaseAgent
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 import google.generativeai as genai
+
+from plants.apps.agent.agents.base_agent import BaseAgent
+
 
 class RiskAssessmentService(BaseAgent):
     """Service d'évaluation des risques utilisant l'IA pour générer des analyses de risques"""
-    
+
     def __init__(self, api_key: str):
         super().__init__(api_key)
-        self.model = genai.GenerativeModel('gemini-pro')
+        self.model = genai.GenerativeModel("gemini-pro")
 
-    def analyze_risks(self, crop_type: str, location: str, weather_data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def analyze_risks(
+        self,
+        crop_type: str,
+        location: str,
+        weather_data: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
         """Analyse les risques pour une culture spécifique.
-        
+
         Args:
             crop_type: Type de culture
             location: Localisation du projet
             weather_data: Données météorologiques (optionnel)
-            
+
         Returns:
             Dict contenant l'analyse des risques
         """
-        weather_info = "Données météo non disponibles" if weather_data is None else str(weather_data)
-        
-        prompt = f"""En tant qu'expert en gestion des risques agricoles, générez une analyse détaillée au format JSON pour la culture de {crop_type} 
+        weather_info = (
+            "Données météo non disponibles"
+            if weather_data is None
+            else str(weather_data)
+        )
+
+        prompt = f"""En tant qu'expert en gestion des risques agricoles, générez une analyse détaillée au format JSON pour la culture de {crop_type}
         dans la localisation {location}, en tenant compte des informations météo suivantes : {weather_info}.
 
         Le format JSON doit suivre exactement cette structure :
@@ -67,7 +79,7 @@ class RiskAssessmentService(BaseAgent):
             "plan_contingence": ["actions de contingence recommandées"]
         }}
         """
-        
+
         try:
             response = self.model.generate_content(prompt)
             analysis = self._parse_risk_analysis(response.text)
@@ -75,10 +87,12 @@ class RiskAssessmentService(BaseAgent):
         except Exception as e:
             print(f"Erreur lors de l'analyse des risques: {str(e)}")
             return self._get_default_risk_analysis(crop_type, location)
-    
-    def evaluate_disease_risks(self, crop_data: Dict[str, Any], weather_conditions: Dict[str, Any]) -> Dict[str, Any]:
+
+    def evaluate_disease_risks(
+        self, crop_data: Dict[str, Any], weather_conditions: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Évalue les risques spécifiques de maladies"""
-        
+
         prompt = f"""En tant que phytopathologiste, évaluez les risques de maladies pour cette culture basés sur les données suivantes :
 
 Données de la culture :
@@ -98,7 +112,7 @@ Fournissez :
 
 Format de réponse souhaité : JSON
 """
-        
+
         try:
             response = self.model.generate_content(prompt)
             evaluation = self._parse_disease_evaluation(response.text)
@@ -106,10 +120,12 @@ Format de réponse souhaité : JSON
         except Exception as e:
             print(f"Erreur lors de l'évaluation des maladies: {str(e)}")
             return self._get_default_disease_evaluation()
-    
-    def generate_mitigation_plan(self, identified_risks: Dict[str, Any], resources: Dict[str, Any]) -> Dict[str, Any]:
+
+    def generate_mitigation_plan(
+        self, identified_risks: Dict[str, Any], resources: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Génère un plan d'atténuation des risques"""
-        
+
         prompt = f"""En tant qu'expert en gestion des risques, générez un plan d'atténuation détaillé basé sur :
 
 Risques identifiés :
@@ -130,7 +146,7 @@ Fournissez un plan incluant :
 
 Format de réponse souhaité : JSON
 """
-        
+
         try:
             response = self.model.generate_content(prompt)
             plan = self._parse_mitigation_plan(response.text)
@@ -138,7 +154,7 @@ Format de réponse souhaité : JSON
         except Exception as e:
             print(f"Erreur lors de la génération du plan: {str(e)}")
             return self._get_default_mitigation_plan()
-    
+
     def _parse_risk_analysis(self, response: str) -> Dict[str, Any]:
         """Parse la réponse de l'IA pour extraire l'analyse des risques"""
         try:
@@ -154,17 +170,17 @@ Format de réponse souhaité : JSON
                 "prevention_measures": [],
                 "contingency_plan": [],
                 "potential_impact": {},
-                "priority_recommendations": []
+                "priority_recommendations": [],
             }
-            
-            lines = response.split('\n')
+
+            lines = response.split("\n")
             current_section = None
-            
+
             for line in lines:
                 line = line.strip()
                 if not line:
                     continue
-                
+
                 if line.endswith(":"):
                     current_section = line[:-1].lower()
                 elif current_section:
@@ -182,14 +198,18 @@ Format de réponse souhaité : JSON
                         analysis["contingency_plan"].append(line)
                     elif "impact" in current_section:
                         if "financier" in line.lower():
-                            analysis["potential_impact"]["financial"] = self._extract_numeric_value(line)
+                            analysis["potential_impact"]["financial"] = (
+                                self._extract_numeric_value(line)
+                            )
                         elif "rendement" in line.lower():
-                            analysis["potential_impact"]["yield"] = self._extract_numeric_value(line)
+                            analysis["potential_impact"]["yield"] = (
+                                self._extract_numeric_value(line)
+                            )
                     elif "recommand" in current_section:
                         analysis["priority_recommendations"].append(line)
-            
+
             return analysis
-    
+
     def _parse_disease_evaluation(self, response: str) -> Dict[str, Any]:
         """Parse la réponse de l'IA pour extraire l'évaluation des maladies"""
         try:
@@ -203,9 +223,9 @@ Format de réponse souhaité : JSON
                 "symptoms_to_monitor": [],
                 "preventive_measures": [],
                 "recommended_treatments": [],
-                "monitoring_strategy": []
+                "monitoring_strategy": [],
             }
-    
+
     def _parse_mitigation_plan(self, response: str) -> Dict[str, Any]:
         """Parse la réponse de l'IA pour extraire le plan d'atténuation"""
         try:
@@ -220,16 +240,19 @@ Format de réponse souhaité : JSON
                 "implementation_timeline": [],
                 "monitoring_indicators": [],
                 "communication_plan": [],
-                "estimated_budget": {}
+                "estimated_budget": {},
             }
-    
+
     def _extract_numeric_value(self, text: str) -> Optional[float]:
         """Extrait une valeur numérique d'une chaîne de texte"""
         import re
+
         numbers = re.findall(r"[-+]?\d*\.\d+|\d+", text)
         return float(numbers[0]) if numbers else None
-    
-    def _get_default_risk_analysis(self, crop_type: str, location: str) -> Dict[str, Any]:
+
+    def _get_default_risk_analysis(
+        self, crop_type: str, location: str
+    ) -> Dict[str, Any]:
         """Retourne une analyse des risques par défaut en cas d'erreur"""
         return {
             "timestamp": datetime.now().isoformat(),
@@ -241,16 +264,13 @@ Format de réponse souhaité : JSON
             "economic_risks": ["Risques à évaluer"],
             "prevention_measures": ["Mesures à définir"],
             "contingency_plan": ["Plan à développer"],
-            "potential_impact": {
-                "financial": None,
-                "yield": None
-            },
+            "potential_impact": {"financial": None, "yield": None},
             "priority_recommendations": [
                 "Une analyse détaillée des risques est recommandée",
-                "Consultez les experts locaux"
-            ]
+                "Consultez les experts locaux",
+            ],
         }
-    
+
     def _get_default_disease_evaluation(self) -> Dict[str, Any]:
         """Retourne une évaluation des maladies par défaut en cas d'erreur"""
         return {
@@ -261,9 +281,9 @@ Format de réponse souhaité : JSON
             "symptoms_to_monitor": ["À définir"],
             "preventive_measures": ["À développer"],
             "recommended_treatments": ["À déterminer"],
-            "monitoring_strategy": ["À élaborer"]
+            "monitoring_strategy": ["À élaborer"],
         }
-    
+
     def _get_default_mitigation_plan(self) -> Dict[str, Any]:
         """Retourne un plan d'atténuation par défaut en cas d'erreur"""
         return {
@@ -275,5 +295,5 @@ Format de réponse souhaité : JSON
             "implementation_timeline": ["À planifier"],
             "monitoring_indicators": ["À définir"],
             "communication_plan": ["À élaborer"],
-            "estimated_budget": {}
+            "estimated_budget": {},
         }

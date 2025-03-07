@@ -7,17 +7,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('field', '0001_initial'),
+        ("field", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='field',
+            name="field",
             options={},
         ),
         migrations.AddIndex(
-            model_name='field',
-            index=models.Index(condition=models.Q(('deleted_at', None)), fields=['deleted_at'], name='indexing_undeleted_fields'),
+            model_name="field",
+            index=models.Index(
+                condition=models.Q(("deleted_at", None)),
+                fields=["deleted_at"],
+                name="indexing_undeleted_fields",
+            ),
         ),
     ]

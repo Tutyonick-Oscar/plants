@@ -1,5 +1,6 @@
-from .models import CustomUser
 from plants.apps.core.serializers import DynamicFieldsModelSerializer
+
+from .models import CustomUser
 
 
 class CustomUserSerializer(DynamicFieldsModelSerializer):
@@ -10,4 +11,3 @@ class CustomUserSerializer(DynamicFieldsModelSerializer):
             "username",
             "email",
         ]
-

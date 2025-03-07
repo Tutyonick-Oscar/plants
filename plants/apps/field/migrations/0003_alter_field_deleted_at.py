@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('field', '0002_alter_field_options_field_indexing_undeleted_fields'),
+        ("field", "0002_alter_field_options_field_indexing_undeleted_fields"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='field',
-            name='deleted_at',
+            model_name="field",
+            name="deleted_at",
             field=models.DateTimeField(blank=True, default=None, null=True),
         ),
     ]

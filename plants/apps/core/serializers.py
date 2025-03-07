@@ -4,7 +4,7 @@ from rest_framework.serializers import ModelSerializer
 class DynamicFieldsModelSerializer(ModelSerializer):
 
     def __init__(self, *args, **kwargs):
-        fields = kwargs.pop('fields', None)
+        fields = kwargs.pop("fields", None)
 
         super().__init__(*args, **kwargs)
 

@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('task', '0004_task_aprouved_task_generated_alter_task_frequency_and_more'),
+        ("task", "0004_task_aprouved_task_generated_alter_task_frequency_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='task',
-            name='required_equipements',
+            model_name="task",
+            name="required_equipements",
             field=models.JSONField(blank=True, default=None, null=True),
         ),
     ]

@@ -10,24 +10,68 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('field', '0001_initial'),
+        ("field", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Task',
+            name="Task",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('deleted_at', models.DateTimeField(default=None, null=True)),
-                ('frequency', models.CharField(choices=[('day', 'Dayly'), ('week', 'Weekly'), ('mounth', 'Mounthly'), ('year', 'Annual')], max_length=10)),
-                ('task_title', models.CharField(max_length=200)),
-                ('descriptions', models.TextField(blank=True, null=True)),
-                ('status', models.CharField(choices=[('planed', 'Planed'), ('executing', 'Executing...'), ('done', 'Done')], default='planed', max_length=50)),
-                ('created_by', models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('field', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='planed_tasks', to='field.field')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("deleted_at", models.DateTimeField(default=None, null=True)),
+                (
+                    "frequency",
+                    models.CharField(
+                        choices=[
+                            ("day", "Dayly"),
+                            ("week", "Weekly"),
+                            ("mounth", "Mounthly"),
+                            ("year", "Annual"),
+                        ],
+                        max_length=10,
+                    ),
+                ),
+                ("task_title", models.CharField(max_length=200)),
+                ("descriptions", models.TextField(blank=True, null=True)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("planed", "Planed"),
+                            ("executing", "Executing..."),
+                            ("done", "Done"),
+                        ],
+                        default="planed",
+                        max_length=50,
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        blank=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "field",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="planed_tasks",
+                        to="field.field",
+                    ),
+                ),
             ],
         ),
     ]

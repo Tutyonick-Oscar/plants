@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.apps import apps
 from django.db import models
 
 from plants.apps.core.middlewares import local
@@ -28,7 +29,7 @@ class BaseModel(models.Model):
     created_by = models.ForeignKey(
         AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True
     )
-    deleted_at = models.DateTimeField(blank=True,default=None, null=True)
+    deleted_at = models.DateTimeField(blank=True, default=None, null=True)
 
     objects = CustomBaseManager()
 
@@ -48,10 +49,18 @@ class BaseModel(models.Model):
         self.save()
         return self
 
-    def save(self, *args, **kwargs):
-        self.created_by = getattr(local, "CURRENT_USER")
-        super().save(*args, **kwargs)
-        return self
+    def save(self, force=False, *args, **kwargs):
+        if force:
+            return super().save(*args, **kwargs)
+
+        if self.pk is None:
+            if isinstance(
+                getattr(local, "CURRENT_USER"), apps.get_model("user_app", "InterUser")
+            ):
+                print("yes someone is connected :", getattr(local, "CURRENT_USER"))
+                self.created_by = getattr(local, "CURRENT_USER", None)
+        return super().save(*args, **kwargs)
+
 
 class RequestOffset(BaseModel):
     created_by = None

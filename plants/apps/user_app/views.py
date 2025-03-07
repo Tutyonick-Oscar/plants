@@ -1,10 +1,12 @@
-from .serializers import CustomUserSerializer,CustomUser
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.authtoken.models import Token
-from rest_framework.response import Response
 from django.core.exceptions import ValidationError
+from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
+
 from plants.apps.field.field_serializer import MyFieldSerializer
+
+from .serializers import CustomUser, CustomUserSerializer
 
 
 class UsersViewSet(ModelViewSet):
@@ -16,7 +18,7 @@ class UsersViewSet(ModelViewSet):
         try:
             user.full_clean()
         except ValidationError as e:
-            return Response(e.error_dict,status=400)
+            return Response(e.error_dict, status=400)
 
         user.set_password(request.data["password"])
         user.save()
@@ -29,11 +31,12 @@ class UsersViewSet(ModelViewSet):
                 "Token": token.key,
             }
         )
-    
-    @action(detail=True,methods=["GET"])
-    def get_fields(self,request,pk):
+
+    @action(detail=True, methods=["GET"])
+    def get_fields(self, request, pk):
         user = request.user
         user_fields = user.field_set.all()
-        serializer = MyFieldSerializer(user_fields,many=True,context={'request': request})
+        serializer = MyFieldSerializer(
+            user_fields, many=True, context={"request": request}
+        )
         return Response(serializer.data)
-    
