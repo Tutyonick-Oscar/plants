@@ -1,0 +1,31 @@
+[submodule "agroflex-accounts"]
+	path = agroflex/apps/accounts
+	url = git@github.com:autafrika/agroflex-accounts.git
+
+[submodule "agroflex-agent"]
+	path = agroflex/apps/agent
+	url = git@github.com:autafrika/agroflex-agent.git
+
+[submodule "agroflex-core"]
+	path = agroflex/apps/core
+	url = git@github.com:autafrika/agroflex-core.git
+
+[submodule "agroflex-field"]
+	path = agroflex/apps/field
+	url = git@github.com:autafrika/agroflex-field.git
+
+[submodule "agroflex-market"]
+	path = agroflex/apps/market
+	url = git@github.com:autafrika/agroflex-market.git
+
+[submodule "agroflex-plants"]
+	path = agroflex/apps/plant
+	url = git@github.com:autafrika/agroflex-plants.git
+
+[submodule "agroflex-plants-species"]
+	path = agroflex/apps/plants_species
+	url = git@github.com:autafrika/agroflex-plants-species.git
+
+[submodule "agroflex-task"]
+	path = agroflex/apps/task
+	url = git@github.com:autafrika/agroflex-task.git
