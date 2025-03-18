@@ -4,7 +4,7 @@ from agroflex.utils import app_path
 
 urlpatterns = [
     path("", include(f"{app_path('plants_species')}.urls")),
-    path("", include(f"{app_path('accounts')}.urls.api")),
+    path("accounts/", include(f"{app_path('accounts')}.urls.api")),
     path("", include(f"{app_path('field')}.urls.api")),
     path("tasks/", include(f"{app_path('task')}.urls.api")),
     path("", include(f"{app_path('market')}.urls.api")),

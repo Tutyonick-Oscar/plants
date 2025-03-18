@@ -7,7 +7,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView
 urlpatterns = [
     # path('admin/',admin.site.urls),
     re_path("api/", include("agroflex.routes.api_urls")),
-    re_path("", include("agroflex.routes.web_urls")),
+    re_path("web/", include("agroflex.routes.web_urls")),
 ]
 
 # spectacular
